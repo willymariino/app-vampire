@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vampire Dice Roller</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Vampire Dice Roller</h1>
+
+        <label for="character" class="label">Seleziona Personaggio:</label>
+        <select id="character" class="input"></select>
+
+        <label for="attribute" class="label">Attributo:</label>
+        <select id="attribute" class="input"></select>
+
+        <label for="skill" class="label">Skill:</label>
+        <select id="skill" class="input"></select>
+
+        <label for="hunger" class="label">Punti Fame: <span id="hungerValue">0</span></label>
+        <input type="range" id="hunger" min="0" max="5" value="0" class="slider">
+
+        <h3 class="section-title">Armi Equipaggiate:</h3>
+        <ul id="weaponsList" class="list"></ul>
+
+        <h3 class="section-title">Discipline:</h3>
+        <div id="disciplinesAccordion" class="accordion"></div>
+
+        <div class="button-wrapper">
+            <button onclick="rollDice()" class="button">Tira i Dadi</button>
+        </div>
+
+        <div id="result" class="result-box"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
