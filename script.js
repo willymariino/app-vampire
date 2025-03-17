@@ -134,17 +134,26 @@ window.addEventListener("DOMContentLoaded", () => {
         const hungerDice = [];
         for (let i = 0; i < norm; i++) normalDice.push(Math.ceil(Math.random() * 10));
         for (let i = 0; i < hunger; i++) hungerDice.push(Math.ceil(Math.random() * 10));
-        let crits = [...normalDice, ...hungerDice].filter(n => n === 10).length;
+        let crits = 0, normalSuccess = 0;
+        let normalOutput = normalDice.map(n => {
+            if (n === 10) { crits++; return `<span class="success crit">${n}</span>`; }
+            if (n >= 6) { normalSuccess++; return `<span class="success">${n}</span>`; }
+            return `${n}`;
+        });
+        let hungerOutput = hungerDice.map(n => {
+            if (n === 10) { crits++; return `<span class="hunger crit">${n}</span>`; }
+            if (n >= 6) { normalSuccess++; return `<span class="hunger success">${n}</span>`; }
+            return `<span class="hunger">${n}</span>`;
+        });
         let pairs = Math.floor(crits / 2);
-        let normalSuccess = [...normalDice, ...hungerDice].filter(n => n >= 6 && n < 10).length;
         let totalSuccess = normalSuccess + pairs * 4;
         resultDiv.innerHTML = `
-        <h4 class="text-lg font-semibold mb-2">Risultati Tiro:</h4>
-        <p><strong>Dadi Normali:</strong> ${normalDice.join(', ')}</p>
-        <p><strong>Dadi Fame:</strong> ${hungerDice.join(', ')}</p>
-        <p><strong>Successi Totali:</strong> ${totalSuccess}</p>
-        <p><strong>Coppie di 10:</strong> ${pairs}</p>
-      `;
+    <h4 class="text-lg font-semibold mb-2">Risultati Tiro:</h4>
+    <p><strong>Dadi Normali:</strong> ${normalOutput.join(', ')}</p>
+    <p><strong>Dadi Fame:</strong> ${hungerOutput.join(', ')}</p>
+    <p><strong>Successi Totali:</strong> <span class="highlight">${totalSuccess}</span></p>
+    <p><strong>Coppie di 10:</strong> ${pairs}</p>
+  `;
     }
     // Eventi
     charSelect.addEventListener("change", updateCharacter);
@@ -159,6 +168,9 @@ window.addEventListener("DOMContentLoaded", () => {
         charSelect.appendChild(opt);
     }
     updateCharacter();
+    // :segno_spunta_bianco: Collega bottone TIRA DADI via JS
+    const rollBtn = document.querySelector("button");
+    rollBtn.addEventListener("click", rollDice);
 });
 
 
