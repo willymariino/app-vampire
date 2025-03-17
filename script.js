@@ -6,7 +6,10 @@ window.addEventListener("DOMContentLoaded", () => {
                 Persuasione: 2, Autocontrollo: 2, Intelligenza: 2,
                 Prontezza: 2, Fermezza: 2
             },
-            skills: { Rissa: 4, Atletica: 2, Persuasione: 3 },
+            skills: {
+                Athletics: 3, Brawl: 4, Firearms: 1, Larceny: 3,
+                Melee: 3, Stealth: 2, Survival: 3, Insight: 1, Intimidation: 1, Awarness: 2
+            },
             weapons: {
                 "Spadone di Akrasiel (+4 aggravati)": false,
                 "Scimitarra Sabbat (+3 superficiali)": false,
@@ -31,7 +34,11 @@ window.addEventListener("DOMContentLoaded", () => {
                 Persuasione: 3, Autocontrollo: 2, Intelligenza: 3,
                 Prontezza: 3, Fermezza: 2
             },
-            skills: { Intimidazione: 3, Empatia: 4, Investigazione: 2 },
+            skills: {
+                Athletics: 1, Firearm: 1, Melee: 4,
+                Elysium: 2, Insight: 3, intimidation: 1, Leadership: 1, Performance: 2,
+                Persuasion: 3, Subterfuge: 4, Academics: 2, Awarness: 3, Investigazione: 1
+            },
             weapons: {
                 "Pugnale di Akkad (+2 aggravati)": false,
                 "Pugnale d’Argento (+2 superficiali)": false,
