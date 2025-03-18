@@ -143,3 +143,31 @@ body {
 .bonus-btn:hover {
     background: #666;
 }
+
+.health-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.health-box {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #888;
+    font-size: 20px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.health-box.superficiale {
+    background-color: #444;
+}
+
+.health-box.aggravato {
+    background-color: #b71c1c;
+    color: white;
+    font-weight: bold;
+}

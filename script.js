@@ -117,6 +117,33 @@ window.addEventListener("DOMContentLoaded", () => {
             });
             details.appendChild(content);
             disciplinesAccordion.appendChild(details);
+            // Reset PV
+            const healthBox = document.getElementById("healthBoxes");
+            healthBox.innerHTML = "";
+            const hp = charSelect.value === "Katherine" ? 5 : 8;
+
+            for (let i = 0; i < hp; i++) {
+                const box = document.createElement("div");
+                box.classList.add("health-box");
+                box.dataset.state = "none";
+                box.addEventListener("click", () => {
+                    if (box.dataset.state === "none") {
+                        box.dataset.state = "superficiale";
+                        box.classList.add("superficiale");
+                        box.textContent = "/";
+                    } else if (box.dataset.state === "superficiale") {
+                        box.dataset.state = "aggravato";
+                        box.classList.remove("superficiale");
+                        box.classList.add("aggravato");
+                        box.textContent = "X";
+                    } else {
+                        box.dataset.state = "none";
+                        box.classList.remove("superficiale", "aggravato");
+                        box.textContent = "";
+                    }
+                });
+                healthBox.appendChild(box);
+            }
         });
         updateWeaponsList();
     }
