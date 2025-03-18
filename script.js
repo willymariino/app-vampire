@@ -60,6 +60,10 @@ window.addEventListener("DOMContentLoaded", () => {
     const weaponsSelector = document.createElement("div");
     const disciplinesAccordion = document.getElementById("disciplinesAccordion");
     const resultDiv = document.getElementById("result");
+    const xpInput = document.getElementById("xpInput");
+    xpInput.addEventListener("input", () => {
+        localStorage.setItem(`xp-${charSelect.value}`, xpInput.value);
+    });
     // Aggiunta dinamica al DOM per selezione armi
     weaponsList.before(weaponsSelector);
     function updateCharacter() {
@@ -146,6 +150,9 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         });
         updateWeaponsList();
+        // Carica XP da localStorage
+        const savedXP = localStorage.getItem(`xp-${charSelect.value}`);
+        xpInput.value = savedXP !== null ? parseInt(savedXP) : 0;
     }
     function updateWeaponsList() {
         const char = characters[charSelect.value];

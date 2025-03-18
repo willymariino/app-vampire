@@ -171,3 +171,16 @@ body {
     color: white;
     font-weight: bold;
 }
+
+.xp-container {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#xpInput {
+    width: 80px;
+    padding: 5px;
+    font-size: 1rem;
+}
