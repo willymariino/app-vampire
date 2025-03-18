@@ -3,12 +3,12 @@ window.addEventListener("DOMContentLoaded", () => {
         Aaron: {
             attributes: {
                 Forza: 4, Destrezza: 3, Stamina: 3, Carisma: 2,
-                Persuasione: 2, Autocontrollo: 2, Intelligenza: 2,
-                Prontezza: 2, Fermezza: 2
+                Persuasione: 1, Autocontrollo: 2, Intelligenza: 2,
+                Prontezza: 2, Fermezza: 3
             },
             skills: {
                 Athletics: 3, Brawl: 4, Firearms: 1, Larceny: 3,
-                Melee: 3, Stealth: 2, Survival: 3, Insight: 1, Intimidation: 1, Awarness: 2
+                Melee: 4, Stealth: 2, Survival: 3, Insight: 1, Intimidation: 1, streetwise: 1, Awarness: 2
             },
             weapons: {
                 "Spadone di Akrasiel (+4 aggravati)": false,
