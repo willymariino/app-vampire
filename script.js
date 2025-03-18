@@ -130,6 +130,20 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    // :segno_spunta_bianco: Collega bottone TIRA DADI via JS
+    const rollBtn = document.querySelector("button");
+    rollBtn.addEventListener("click", rollDice);
+
+    let bonus = 0;
+    const bonusDisplay = document.getElementById("bonusValue");
+    document.getElementById("increaseBonus").addEventListener("click", () => {
+        bonus++;
+        bonusDisplay.textContent = bonus;
+    });
+    document.getElementById("decreaseBonus").addEventListener("click", () => {
+        if (bonus > -20) bonus--; // limite arbitrario
+        bonusDisplay.textContent = bonus;
+    });
     function rollDice() {
         const char = characters[charSelect.value];
         const attr = attrSelect.value;
@@ -176,41 +190,5 @@ window.addEventListener("DOMContentLoaded", () => {
         charSelect.appendChild(opt);
     }
     updateCharacter();
-    // :segno_spunta_bianco: Collega bottone TIRA DADI via JS
-    const rollBtn = document.querySelector("button");
-    rollBtn.addEventListener("click", rollDice);
 
-    let bonus = 0;
-    const bonusDisplay = document.getElementById("bonusValue");
-    document.getElementById("increaseBonus").addEventListener("click", () => {
-        bonus++;
-        bonusDisplay.textContent = bonus;
-    });
-    document.getElementById("decreaseBonus").addEventListener("click", () => {
-        if (bonus > -20) bonus--; // limite arbitrario
-        bonusDisplay.textContent = bonus;
-    });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
