@@ -139,7 +139,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         // Armi personalizzate da localStorage
         const customWeapons = JSON.parse(localStorage.getItem(`customWeapons-${charSelect.value}`)) || [];
-        customWeapons.forEach(weapon => {
+        customWeapons.forEach((weapon, index) => {
             const id = `equip-${weapon.replace(/\W/g, '')}`;
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
@@ -147,14 +147,29 @@ window.addEventListener("DOMContentLoaded", () => {
             checkbox.name = weapon;
             checkbox.classList.add("checkbox");
             checkbox.addEventListener("change", () => updateWeaponsList());
+
             const label = document.createElement("label");
             label.setAttribute("for", id);
             label.textContent = weapon;
             label.classList.add("weapon-label");
+
+            // ➕ Pulsante elimina arma
+            const deleteBtn = document.createElement("button");
+            deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+            deleteBtn.classList.add("delete-weapon");
+            deleteBtn.title = "Elimina arma";
+            deleteBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                customWeapons.splice(index, 1);
+                localStorage.setItem(`customWeapons-${charSelect.value}`, JSON.stringify(customWeapons));
+                updateCharacter();
+            });
+
             const wrapper = document.createElement("div");
             wrapper.classList.add("checkbox-wrapper");
             wrapper.appendChild(checkbox);
             wrapper.appendChild(label);
+            wrapper.appendChild(deleteBtn);
             weaponsSelector.appendChild(wrapper);
         });
 
