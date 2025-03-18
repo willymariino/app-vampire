@@ -45,7 +45,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 "Pistola (+3 superficiali)": false
             },
             disciplines: {
-                Auspex: ["Sensi Aumentati", "Preveggenza"],
+                Auspex: ["Sensi Aumentati", "Premonizione"],
                 Ascendente: ["Soggezione", "Spaventare"],
                 Celerità: ["Grazia Felina", "Blink", "Fleetness"]
             }
@@ -134,21 +134,22 @@ window.addEventListener("DOMContentLoaded", () => {
         const char = characters[charSelect.value];
         const attr = attrSelect.value;
         const skill = skillSelect.value;
-        const total = (char.attributes[attr] || 0) + (char.skills[skill] || 0);
+        const total = (char.attributes[attr] || 0) + (char.skills[skill] || 0) + bonus;
         const hunger = parseInt(hungerSlider.value);
-        const norm = total - hunger;
+        const norm = Math.max(0, total - hunger); // non negativo
         const normalDice = [];
         const hungerDice = [];
         for (let i = 0; i < norm; i++) normalDice.push(Math.ceil(Math.random() * 10));
         for (let i = 0; i < hunger; i++) hungerDice.push(Math.ceil(Math.random() * 10));
+        //Fix: Conteggia anche i 10 come successi!
         let crits = 0, normalSuccess = 0;
         let normalOutput = normalDice.map(n => {
-            if (n === 10) { crits++; return `<span class="success crit">${n}</span>`; }
+            if (n === 10) { crits++; normalSuccess++; return `<span class="success crit">${n}</span>`; }
             if (n >= 6) { normalSuccess++; return `<span class="success">${n}</span>`; }
             return `${n}`;
         });
         let hungerOutput = hungerDice.map(n => {
-            if (n === 10) { crits++; return `<span class="hunger crit">${n}</span>`; }
+            if (n === 10) { crits++; normalSuccess++; return `<span class="hunger crit">${n}</span>`; }
             if (n >= 6) { normalSuccess++; return `<span class="hunger success">${n}</span>`; }
             return `<span class="hunger">${n}</span>`;
         });
@@ -178,6 +179,17 @@ window.addEventListener("DOMContentLoaded", () => {
     // :segno_spunta_bianco: Collega bottone TIRA DADI via JS
     const rollBtn = document.querySelector("button");
     rollBtn.addEventListener("click", rollDice);
+
+    let bonus = 0;
+    const bonusDisplay = document.getElementById("bonusValue");
+    document.getElementById("increaseBonus").addEventListener("click", () => {
+        bonus++;
+        bonusDisplay.textContent = bonus;
+    });
+    document.getElementById("decreaseBonus").addEventListener("click", () => {
+        if (bonus > -20) bonus--; // limite arbitrario
+        bonusDisplay.textContent = bonus;
+    });
 });
 
 

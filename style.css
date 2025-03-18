@@ -119,3 +119,27 @@ body {
     color: #ffeb3b;
     font-weight: bold;
 }
+
+.bonus-malus {
+    margin-top: 15px;
+}
+
+.bonus-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bonus-btn {
+    background: #444;
+    color: white;
+    padding: 5px 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.bonus-btn:hover {
+    background: #666;
+}
