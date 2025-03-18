@@ -185,19 +185,38 @@ window.addEventListener("DOMContentLoaded", () => {
         for (let i = 0; i < norm; i++) normalDice.push(Math.ceil(Math.random() * 10));
         for (let i = 0; i < hunger; i++) hungerDice.push(Math.ceil(Math.random() * 10));
         //Fix: Conteggia anche i 10 come successi!
-        let crits = 0, normalSuccess = 0;
+        let successBase = 0;
+        let tenCount = 0;
+
         let normalOutput = normalDice.map(n => {
-            if (n === 10) { crits++; normalSuccess++; return `<span class="success crit">${n}</span>`; }
-            if (n >= 6) { normalSuccess++; return `<span class="success">${n}</span>`; }
+            if (n === 10) {
+                tenCount++;
+                successBase++;
+                return `<span class="success crit">${n}</span>`;
+            }
+            if (n >= 6) {
+                successBase++;
+                return `<span class="success">${n}</span>`;
+            }
             return `${n}`;
         });
+
+
+
+
+
         let hungerOutput = hungerDice.map(n => {
-            if (n === 10) { crits++; normalSuccess++; return `<span class="hunger crit">${n}</span>`; }
+            if (n === 10) { tens++; return `<span class="hunger crit">${n}</span>`; }
             if (n >= 6) { normalSuccess++; return `<span class="hunger success">${n}</span>`; }
             return `<span class="hunger">${n}</span>`;
         });
-        let pairs = Math.floor(crits / 2);
-        let totalSuccess = normalSuccess + pairs * 4;
+
+
+
+        // Ogni 10 vale 1 successo comunque (in qualunque caso),
+        // ma ogni coppia di 10 porta 2 SUCCESSI IN PIÙ (perché già contati 1+1)
+        let pairs = Math.floor(tenCount / 2);
+        let totalSuccess = successBase + (pairs * 2);
         resultDiv.innerHTML = `
     <h4 class="text-lg font-semibold mb-2">Risultati Tiro:</h4>
     <p><strong>Dadi Normali:</strong> ${normalOutput.join(', ')}</p>
