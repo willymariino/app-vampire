@@ -131,7 +131,7 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     }
     // :segno_spunta_bianco: Collega bottone TIRA DADI via JS
-    const rollBtn = document.querySelector("button");
+    const rollBtn = document.getElementById("rollBtn");
     rollBtn.addEventListener("click", () => rollDice());
 
     let bonus = 0;
