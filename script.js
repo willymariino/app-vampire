@@ -51,6 +51,8 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         }
     };
+
+    // DICHIARAZIONI VARIABILI HTML (PRIMA di usarle!)
     const charSelect = document.getElementById("character");
     const attrSelect = document.getElementById("attribute");
     const skillSelect = document.getElementById("skill");
@@ -61,6 +63,31 @@ window.addEventListener("DOMContentLoaded", () => {
     const disciplinesAccordion = document.getElementById("disciplinesAccordion");
     const resultDiv = document.getElementById("result");
     const xpInput = document.getElementById("xpInput");
+
+    const newWeaponName = document.getElementById("newWeaponName");
+    const newWeaponEffect = document.getElementById("newWeaponEffect");
+    const addWeaponBtn = document.getElementById("addWeaponBtn");
+
+    // AGGIUNGI ARMA PERSONALIZZATA
+    addWeaponBtn.addEventListener("click", () => {
+        const name = newWeaponName.value.trim();
+        const effect = newWeaponEffect.value.trim();
+        if (!name || !effect) return;
+
+        const fullLabel = `${name} (${effect})`;
+        const charName = charSelect.value;
+
+        let customWeapons = JSON.parse(localStorage.getItem(`customWeapons-${charName}`)) || [];
+        customWeapons.push(fullLabel);
+        localStorage.setItem(`customWeapons-${charName}`, JSON.stringify(customWeapons));
+
+        newWeaponName.value = "";
+        newWeaponEffect.value = "";
+
+        updateCharacter();
+    });
+
+    // SALVATAGGIO XP INPUT
     xpInput.addEventListener("input", () => {
         localStorage.setItem(`xp-${charSelect.value}`, xpInput.value);
     });
@@ -73,6 +100,7 @@ window.addEventListener("DOMContentLoaded", () => {
         weaponsList.innerHTML = '';
         weaponsSelector.innerHTML = '<p class="label">Seleziona Equipaggiamento:</p>';
         disciplinesAccordion.innerHTML = '';
+
         // Attributi
         Object.entries(char.attributes).forEach(([key, val]) => {
             const option = document.createElement("option");
@@ -80,6 +108,7 @@ window.addEventListener("DOMContentLoaded", () => {
             option.textContent = `${key} (${val})`;
             attrSelect.appendChild(option);
         });
+
         // Skill
         Object.entries(char.skills).forEach(([key, val]) => {
             const option = document.createElement("option");
@@ -87,7 +116,8 @@ window.addEventListener("DOMContentLoaded", () => {
             option.textContent = `${key} (${val})`;
             skillSelect.appendChild(option);
         });
-        // Armi selezionabili (checkbox)
+
+        // Armi selezionabili
         Object.keys(char.weapons).forEach(weapon => {
             const id = `equip-${weapon.replace(/\W/g, '')}`;
             const checkbox = document.createElement("input");
@@ -106,6 +136,28 @@ window.addEventListener("DOMContentLoaded", () => {
             wrapper.appendChild(label);
             weaponsSelector.appendChild(wrapper);
         });
+
+        // Armi personalizzate da localStorage
+        const customWeapons = JSON.parse(localStorage.getItem(`customWeapons-${charSelect.value}`)) || [];
+        customWeapons.forEach(weapon => {
+            const id = `equip-${weapon.replace(/\W/g, '')}`;
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = id;
+            checkbox.name = weapon;
+            checkbox.classList.add("checkbox");
+            checkbox.addEventListener("change", () => updateWeaponsList());
+            const label = document.createElement("label");
+            label.setAttribute("for", id);
+            label.textContent = weapon;
+            label.classList.add("weapon-label");
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("checkbox-wrapper");
+            wrapper.appendChild(checkbox);
+            wrapper.appendChild(label);
+            weaponsSelector.appendChild(wrapper);
+        });
+
         // Discipline Accordion
         Object.entries(char.disciplines).forEach(([disc, abilities]) => {
             const details = document.createElement("details");
@@ -121,35 +173,38 @@ window.addEventListener("DOMContentLoaded", () => {
             });
             details.appendChild(content);
             disciplinesAccordion.appendChild(details);
-            // Reset PV
-            const healthBox = document.getElementById("healthBoxes");
-            healthBox.innerHTML = "";
-            const hp = charSelect.value === "Katherine" ? 5 : 8;
-
-            for (let i = 0; i < hp; i++) {
-                const box = document.createElement("div");
-                box.classList.add("health-box");
-                box.dataset.state = "none";
-                box.addEventListener("click", () => {
-                    if (box.dataset.state === "none") {
-                        box.dataset.state = "superficiale";
-                        box.classList.add("superficiale");
-                        box.textContent = "/";
-                    } else if (box.dataset.state === "superficiale") {
-                        box.dataset.state = "aggravato";
-                        box.classList.remove("superficiale");
-                        box.classList.add("aggravato");
-                        box.textContent = "X";
-                    } else {
-                        box.dataset.state = "none";
-                        box.classList.remove("superficiale", "aggravato");
-                        box.textContent = "";
-                    }
-                });
-                healthBox.appendChild(box);
-            }
         });
+
+        // Punti Vita
+        const healthBox = document.getElementById("healthBoxes");
+        healthBox.innerHTML = "";
+        const hp = charSelect.value === "Katherine" ? 5 : 8;
+        for (let i = 0; i < hp; i++) {
+            const box = document.createElement("div");
+            box.classList.add("health-box");
+            box.dataset.state = "none";
+            box.addEventListener("click", () => {
+                if (box.dataset.state === "none") {
+                    box.dataset.state = "superficiale";
+                    box.classList.add("superficiale");
+                    box.textContent = "/";
+                } else if (box.dataset.state === "superficiale") {
+                    box.dataset.state = "aggravato";
+                    box.classList.remove("superficiale");
+                    box.classList.add("aggravato");
+                    box.textContent = "X";
+                } else {
+                    box.dataset.state = "none";
+                    box.classList.remove("superficiale", "aggravato");
+                    box.textContent = "";
+                }
+            });
+            healthBox.appendChild(box);
+        }
+
+        // Aggiorna lista armi selezionate
         updateWeaponsList();
+
         // Carica XP da localStorage
         const savedXP = localStorage.getItem(`xp-${charSelect.value}`);
         xpInput.value = savedXP !== null ? parseInt(savedXP) : 0;
@@ -207,19 +262,18 @@ window.addEventListener("DOMContentLoaded", () => {
             }
             return `${n}`;
         });
-
-
-
-
-
         let hungerOutput = hungerDice.map(n => {
-            if (n === 10) { tens++; return `<span class="hunger crit">${n}</span>`; }
-            if (n >= 6) { normalSuccess++; return `<span class="hunger success">${n}</span>`; }
+            if (n === 10) {
+                tenCount++;
+                successBase++;
+                return `<span class="hunger crit">${n}</span>`;
+            }
+            if (n >= 6) {
+                successBase++;
+                return `<span class="hunger success">${n}</span>`;
+            }
             return `<span class="hunger">${n}</span>`;
         });
-
-
-
         // Ogni 10 vale 1 successo comunque (in qualunque caso),
         // ma ogni coppia di 10 porta 2 SUCCESSI IN PIÙ (perché già contati 1+1)
         let pairs = Math.floor(tenCount / 2);

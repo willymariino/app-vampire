@@ -184,3 +184,29 @@ body {
     padding: 5px;
     font-size: 1rem;
 }
+
+.add-weapon-form {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+}
+
+.add-weapon-form input {
+    padding: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.add-weapon-form button {
+    padding: 6px 12px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.add-weapon-form button:hover {
+    background-color: #555;
+}
