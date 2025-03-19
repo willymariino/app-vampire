@@ -155,7 +155,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
             // ➕ Pulsante elimina arma
             const deleteBtn = document.createElement("button");
-            deleteBtn.innerHTML = '<img src="trash-can.svg" alt="">';
+            deleteBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon">
+    <path fill="currentColor" d="M135.2 17.7C141.6 7.3 152.6 0 164.8 0h118.3c12.2 0 23.2 7.3 29.6 17.7L320 32h80c13.3 0 24 10.7 24 24s-10.7 24-24 24h-16l-20.1 368.6c-1.7 31.2-27.6 55.4-58.8 55.4H142.9c-31.2 0-57.1-24.2-58.8-55.4L64 80H48c-13.3 0-24-10.7-24-24S34.7 32 48 32h80l7.2-14.3zM192 160v224c0 13.3 10.7 24 24 24s24-10.7 24-24V160c0-13.3-10.7-24-24-24s-24 10.7-24 24zm88 0v224c0 13.3 10.7 24 24 24s24-10.7 24-24V160c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+  </svg> `;
+
+
+
+
             deleteBtn.classList.add("delete-weapon");
             deleteBtn.title = "Elimina arma";
             deleteBtn.addEventListener("click", (e) => {

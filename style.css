@@ -212,18 +212,20 @@ body {
 }
 
 .delete-weapon {
-    background: transparent;
+    background: none;
     border: none;
-    color: white;
     cursor: pointer;
-    font-size: 16px;
-    margin-left: 10px;
-}
-
-.delete-weapon i {
-    pointer-events: none;
+    color: #1b9a30;
+    font-size: 1.2em;
+    padding-left: 0.5em;
 }
 
 .delete-weapon:hover {
-    color: darkred;
+    color: red;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
 }
