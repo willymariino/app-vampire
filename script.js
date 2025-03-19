@@ -219,8 +219,27 @@ window.addEventListener("DOMContentLoaded", () => {
                     box.classList.remove("superficiale", "aggravato");
                     box.textContent = "";
                 }
+                // ➕ Salva stato PV aggiornato in localStorage (DENTRO l’evento click!)
+                const currentStates = Array.from(healthBox.children).map(b => b.dataset.state);
+                localStorage.setItem(`health-${charSelect.value}`, JSON.stringify(currentStates))
             });
             healthBox.appendChild(box);
+        }
+
+        // E qui fuori dal ciclo, ripristina eventuali PV salvati
+        const savedStates = JSON.parse(localStorage.getItem(`health-${charSelect.value}`));
+        if (savedStates && savedStates.length === hp) {
+            Array.from(healthBox.children).forEach((box, i) => {
+                const state = savedStates[i];
+                box.dataset.state = state;
+                if (state === "superficiale") {
+                    box.classList.add("superficiale");
+                    box.textContent = "/";
+                } else if (state === "aggravato") {
+                    box.classList.add("aggravato");
+                    box.textContent = "X";
+                }
+            });
         }
 
         // Aggiorna lista armi selezionate
