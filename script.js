@@ -63,10 +63,24 @@ window.addEventListener("DOMContentLoaded", () => {
     const disciplinesAccordion = document.getElementById("disciplinesAccordion");
     const resultDiv = document.getElementById("result");
     const xpInput = document.getElementById("xpInput");
-
     const newWeaponName = document.getElementById("newWeaponName");
     const newWeaponEffect = document.getElementById("newWeaponEffect");
     const addWeaponBtn = document.getElementById("addWeaponBtn");
+
+    // ✅ SUBITO QUI DOPO:
+    const notesArea = document.getElementById("notesArea");
+
+    // === NOTE PERSONALI FUNZIONI GLOBALI ===
+    function loadNotes() {
+        const savedNote = localStorage.getItem(`notes-${charSelect.value}`);
+        notesArea.value = savedNote || '';
+    }
+
+    // === EVENTO input = salvataggio note ===
+    notesArea.addEventListener("input", () => {
+        localStorage.setItem(`notes-${charSelect.value}`, notesArea.value);
+    });
+
 
     // AGGIUNGI ARMA PERSONALIZZATA
     addWeaponBtn.addEventListener("click", () => {
@@ -244,6 +258,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         // Aggiorna lista armi selezionate
         updateWeaponsList();
+        loadNotes();
 
         // Carica XP da localStorage
         const savedXP = localStorage.getItem(`xp-${charSelect.value}`);

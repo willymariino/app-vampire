@@ -229,3 +229,18 @@ body {
     height: 1em;
     fill: currentColor;
 }
+
+.notes-section {
+    margin-top: 20px;
+}
+
+#notesArea {
+    width: 100%;
+    padding: 8px;
+    font-family: monospace;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    min-height: 100px;
+}
