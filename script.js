@@ -1,4 +1,23 @@
-window.addEventListener("DOMContentLoaded", () => {
+import { db } from "./firebase-config.js"
+window.addEventListener("DOMContentLoaded", async () => {
+
+    await new Promise(resolve => setTimeout(resolve, 100))
+    console.log("Firebase e Firestore sono stati inizializzati correttamente", db)
+
+    if (db) {
+        console.log("Firestore è attivo!");
+    } else {
+        console.error("Errore nell'inizializzazione di Firestore");
+    }
+
+    // Inizializza Firebase (dopo aver incluso firebase-config.js in index.html)
+
+
+    // Ora puoi usare `db` per leggere/scrivere su Firestore
+
+    // Chiama la funzione per caricare i dati salvati su Firebase
+
+
     const characters = {
         Aaron: {
             attributes: {
@@ -59,27 +78,35 @@ window.addEventListener("DOMContentLoaded", () => {
     const hungerSlider = document.getElementById("hunger");
     const hungerValue = document.getElementById("hungerValue");
     const weaponsList = document.getElementById("weaponsList");
-    const weaponsSelector = document.createElement("div");
+
     const disciplinesAccordion = document.getElementById("disciplinesAccordion");
     const resultDiv = document.getElementById("result");
     const xpInput = document.getElementById("xpInput");
     const newWeaponName = document.getElementById("newWeaponName");
     const newWeaponEffect = document.getElementById("newWeaponEffect");
     const addWeaponBtn = document.getElementById("addWeaponBtn");
-
-    // ✅ SUBITO QUI DOPO:
     const notesArea = document.getElementById("notesArea");
+
+    const weaponsSelector = document.createElement("div");
+    weaponsList.before(weaponsSelector);
 
     // === NOTE PERSONALI FUNZIONI GLOBALI ===
     function loadNotes() {
         const savedNote = localStorage.getItem(`notes-${charSelect.value}`);
         notesArea.value = savedNote || '';
+
     }
 
     // === EVENTO input = salvataggio note ===
     notesArea.addEventListener("input", () => {
         localStorage.setItem(`notes-${charSelect.value}`, notesArea.value);
+
+        db.collection("personaggi")
+            .doc(charSelect.value)
+            .set({ note: notesArea.value }, { merge: true });
+
     });
+
 
 
     // AGGIUNGI ARMA PERSONALIZZATA
@@ -104,9 +131,16 @@ window.addEventListener("DOMContentLoaded", () => {
     // SALVATAGGIO XP INPUT
     xpInput.addEventListener("input", () => {
         localStorage.setItem(`xp-${charSelect.value}`, xpInput.value);
+
+        // Salva su Firebase (merge = aggiorna senza cancellare altri dati)
+        db.collection("personaggi")
+            .doc(charSelect.value)
+            .set({ xp: parseInt(xpInput.value) }, { merge: true });
+
     });
+
     // Aggiunta dinamica al DOM per selezione armi
-    weaponsList.before(weaponsSelector);
+
     function updateCharacter() {
         const char = characters[charSelect.value];
         attrSelect.innerHTML = '';
@@ -140,10 +174,12 @@ window.addEventListener("DOMContentLoaded", () => {
             checkbox.name = weapon;
             checkbox.classList.add("checkbox");
             checkbox.addEventListener("change", () => updateWeaponsList());
+
             const label = document.createElement("label");
             label.setAttribute("for", id);
             label.textContent = weapon;
             label.classList.add("weapon-label");
+
             const wrapper = document.createElement("div");
             wrapper.classList.add("checkbox-wrapper");
             wrapper.appendChild(checkbox);
@@ -236,6 +272,9 @@ window.addEventListener("DOMContentLoaded", () => {
                 // ➕ Salva stato PV aggiornato in localStorage (DENTRO l’evento click!)
                 const currentStates = Array.from(healthBox.children).map(b => b.dataset.state);
                 localStorage.setItem(`health-${charSelect.value}`, JSON.stringify(currentStates))
+
+
+
             });
             healthBox.appendChild(box);
         }
@@ -354,5 +393,4 @@ window.addEventListener("DOMContentLoaded", () => {
         charSelect.appendChild(opt);
     }
     updateCharacter();
-
 });
