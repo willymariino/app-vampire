@@ -1,4 +1,5 @@
 import { db } from "./firebase-config.js"
+import { doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 window.addEventListener("DOMContentLoaded", async () => {
 
     await new Promise(resolve => setTimeout(resolve, 100))
@@ -10,12 +11,114 @@ window.addEventListener("DOMContentLoaded", async () => {
         console.error("Errore nell'inizializzazione di Firestore");
     }
 
-    // Inizializza Firebase (dopo aver incluso firebase-config.js in index.html)
+    // DICHIARAZIONE VARIABILI HTML
+    const charSelect = document.getElementById("character");
+    const xpInput = document.getElementById("xpInput");
+    const notesArea = document.getElementById("notesArea");
+    const healthBox = document.getElementById("healthBoxes");
 
 
-    // Ora puoi usare `db` per leggere/scrivere su Firestore
+    // carica dati da firestore all'avvio
+    async function loadCharacterData() {
+        const charName = charSelect.value;
+        if (!charName) return;
 
-    // Chiama la funzione per caricare i dati salvati su Firebase
+        const charRef = doc(db, "personaggi", charName);
+        const charSnap = await getDoc(charRef);
+
+        if (charSnap.exists()) {
+            const data = charSnap.data();
+            xpInput.value = data.xp ?? 0;
+            notesArea.value = data.note ?? "";
+            updateHealthBoxes(data.health ?? []);
+        }
+    }
+
+    // ascolta aggiornamenti firestore in tempo reale
+    function listenToCharacterUpdates() {
+        const charName = charSelect.value;
+        if (!charName) return;
+
+        const charRef = doc(db, "personaggi", charName);
+
+        onSnapshot(charRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.data();
+                xpInput.value = data.xp ?? 0;
+                notesArea.value = data.note ?? "";
+                updateHealthBoxes(data.health ?? []);
+            }
+        });
+    }
+
+    // Salvataggio XP
+    xpInput.addEventListener("input", async () => {
+        const charName = charSelect.value;
+        const xpValue = parseInt(xpInput.value);
+        await setDoc(doc(db, "personaggi", charName), { xp: xpValue }, { merge: true });
+    });
+
+    // Salvataggio Note
+    notesArea.addEventListener("input", async () => {
+        const charName = charSelect.value;
+        const noteValue = notesArea.value;
+        await setDoc(doc(db, "personaggi", charName), { note: noteValue }, { merge: true });
+    });
+
+    // Salvataggio Punti Vita
+    function saveHealthToFirestore() {
+        const charName = charSelect.value;
+        const healthStates = Array.from(healthBox.children).map(box => box.dataset.state);
+        setDoc(doc(db, "personaggi", charName), { health: healthStates }, { merge: true });
+    }
+
+    // Aggiorna Punti Vita sulla UI
+    function updateHealthBoxes(states) {
+        healthBox.innerHTML = "";
+        for (let i = 0; i < states.length; i++) {
+            const box = document.createElement("div");
+            box.classList.add("health-box");
+            box.dataset.state = states[i];
+
+            if (states[i] === "superficiale") {
+                box.classList.add("superficiale");
+                box.textContent = "/";
+            } else if (states[i] === "aggravato") {
+                box.classList.add("aggravato");
+                box.textContent = "X";
+            }
+
+            box.addEventListener("click", () => {
+                if (box.dataset.state === "none") {
+                    box.dataset.state = "superficiale";
+                    box.classList.add("superficiale");
+                    box.textContent = "/";
+                } else if (box.dataset.state === "superficiale") {
+                    box.dataset.state = "aggravato";
+                    box.classList.remove("superficiale");
+                    box.classList.add("aggravato");
+                    box.textContent = "X";
+                } else {
+                    box.dataset.state = "none";
+                    box.classList.remove("superficiale", "aggravato");
+                    box.textContent = "";
+                }
+                saveHealthToFirestore();
+            });
+
+            healthBox.appendChild(box);
+        }
+    }
+
+    // Quando cambia personaggio, aggiorna i dati e ascolta le modifiche in tempo reale
+    charSelect.addEventListener("change", () => {
+        loadCharacterData();
+        listenToCharacterUpdates();
+    });
+
+    // Inizializza caricamento dati e sincronizzazione in tempo reale
+    loadCharacterData();
+    listenToCharacterUpdates();
 
 
     const characters = {
@@ -72,7 +175,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     };
 
     // DICHIARAZIONI VARIABILI HTML (PRIMA di usarle!)
-    const charSelect = document.getElementById("character");
+
     const attrSelect = document.getElementById("attribute");
     const skillSelect = document.getElementById("skill");
     const hungerSlider = document.getElementById("hunger");
@@ -81,11 +184,11 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     const disciplinesAccordion = document.getElementById("disciplinesAccordion");
     const resultDiv = document.getElementById("result");
-    const xpInput = document.getElementById("xpInput");
+
     const newWeaponName = document.getElementById("newWeaponName");
     const newWeaponEffect = document.getElementById("newWeaponEffect");
     const addWeaponBtn = document.getElementById("addWeaponBtn");
-    const notesArea = document.getElementById("notesArea");
+
 
     const weaponsSelector = document.createElement("div");
     weaponsList.before(weaponsSelector);
