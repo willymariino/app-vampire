@@ -204,9 +204,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     notesArea.addEventListener("input", () => {
         localStorage.setItem(`notes-${charSelect.value}`, notesArea.value);
 
-        db.collection("personaggi")
-            .doc(charSelect.value)
-            .set({ note: notesArea.value }, { merge: true });
+        setDoc(doc(db, "personaggi", charSelect.value), { xp: xpValue }, { merge: true });
 
     });
 
@@ -236,9 +234,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         localStorage.setItem(`xp-${charSelect.value}`, xpInput.value);
 
         // Salva su Firebase (merge = aggiorna senza cancellare altri dati)
-        db.collection("personaggi")
-            .doc(charSelect.value)
-            .set({ xp: parseInt(xpInput.value) }, { merge: true });
+        setDoc(doc(db, "personaggi", charSelect.value), { xp: xpValue }, { merge: true });
 
     });
 
