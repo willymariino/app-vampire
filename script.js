@@ -22,6 +22,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     async function loadCharacterData() {
         const charName = charSelect.value;
         if (!charName) return;
+        if (!charSelect || charSelect.value) return
 
         const charRef = doc(db, "personaggi", charName);
         const charSnap = await getDoc(charRef);
