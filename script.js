@@ -9,169 +9,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     const xpInput = document.getElementById("xpInput");
     const notesArea = document.getElementById("notesArea");
     const healthBox = document.getElementById("healthBoxes");
-
-
-    // carica dati da firestore all'avvio
-    async function loadCharacterData() {
-        const charName = charSelect.value;
-        if (!charName) return;
-        if (!charSelect || charSelect.value) return
-
-        const charRef = doc(db, "personaggi", charName);
-        const charSnap = await getDoc(charRef);
-
-        if (charSnap.exists()) {
-            const data = charSnap.data();
-            xpInput.value = data.xp ?? 0;
-            notesArea.value = data.note ?? "";
-            updateHealthBoxes(data.health ?? []);
-        }
-    }
-
-    // ascolta aggiornamenti firestore in tempo reale
-    function listenToCharacterUpdates() {
-        const charName = charSelect.value;
-        if (!charName) return;
-
-        const charRef = doc(db, "personaggi", charName);
-
-        onSnapshot(charRef, (snapshot) => {
-            if (snapshot.exists()) {
-                const data = snapshot.data();
-                xpInput.value = data.xp ?? 0;
-                notesArea.value = data.note ?? "";
-                updateHealthBoxes(data.health ?? []);
-            }
-        });
-    }
-
-    // Salvataggio XP
-    xpInput.addEventListener("input", async () => {
-        const charName = charSelect.value;
-        const xpValue = parseInt(xpInput.value);
-        await setDoc(doc(db, "personaggi", charName), { xp: xpValue }, { merge: true });
-    });
-
-    // Salvataggio Note
-    notesArea.addEventListener("input", async () => {
-        const charName = charSelect.value;
-        const noteValue = notesArea.value;
-        await setDoc(doc(db, "personaggi", charName), { note: noteValue }, { merge: true });
-    });
-
-    // Salvataggio Punti Vita
-    function saveHealthToFirestore() {
-        const charName = charSelect.value;
-        const healthStates = Array.from(healthBox.children).map(box => box.dataset.state);
-        setDoc(doc(db, "personaggi", charName), { health: healthStates }, { merge: true });
-    }
-
-    // Aggiorna Punti Vita sulla UI
-    function updateHealthBoxes(states) {
-        healthBox.innerHTML = "";
-        for (let i = 0; i < states.length; i++) {
-            const box = document.createElement("div");
-            box.classList.add("health-box");
-            box.dataset.state = states[i];
-
-            if (states[i] === "superficiale") {
-                box.classList.add("superficiale");
-                box.textContent = "/";
-            } else if (states[i] === "aggravato") {
-                box.classList.add("aggravato");
-                box.textContent = "X";
-            }
-
-            box.addEventListener("click", () => {
-                if (box.dataset.state === "none") {
-                    box.dataset.state = "superficiale";
-                    box.classList.add("superficiale");
-                    box.textContent = "/";
-                } else if (box.dataset.state === "superficiale") {
-                    box.dataset.state = "aggravato";
-                    box.classList.remove("superficiale");
-                    box.classList.add("aggravato");
-                    box.textContent = "X";
-                } else {
-                    box.dataset.state = "none";
-                    box.classList.remove("superficiale", "aggravato");
-                    box.textContent = "";
-                }
-                saveHealthToFirestore();
-            });
-
-            healthBox.appendChild(box);
-        }
-    }
-
-    // Quando cambia personaggio, aggiorna i dati e ascolta le modifiche in tempo reale
-    charSelect.addEventListener("change", () => {
-        loadCharacterData();
-        listenToCharacterUpdates();
-    });
-
-    // Inizializza caricamento dati e sincronizzazione in tempo reale
-    loadCharacterData();
-    listenToCharacterUpdates();
-
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const exportBtn = document.getElementById("exportDataBtn");
-        const importInput = document.getElementById("importDataInput");
-        const charSelect = document.getElementById("character");
-        const xpInput = document.getElementById("xpInput");
-        const notesArea = document.getElementById("notesArea");
-        const healthBox = document.getElementById("healthBoxes");
-        if (!exportBtn || !importInput || !charSelect || !xpInput || !notesArea || !healthBox) {
-            console.error("Uno o più elementi mancanti nel DOM!");
-            return;
-        }
-        // === ESPORTA JSON ===
-        exportBtn.addEventListener("click", () => {
-            const charName = charSelect.value;
-            if (!charName) {
-                alert("Seleziona un personaggio da esportare.");
-                return;
-            }
-            const data = {
-                name: charName,
-                xp: parseInt(xpInput.value) || 0,
-                note: notesArea.value || "",
-                health: Array.from(healthBox.children).map(b => b.dataset.state || "vuoto")
-            };
-            const json = JSON.stringify(data, null, 2);
-            const blob = new Blob([json], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${charName}_backup.json`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-        });
-        // === IMPORTA JSON ===
-        importInput.addEventListener("change", async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            try {
-                const text = await file.text();
-                const data = JSON.parse(text);
-                if (data.xp !== undefined) xpInput.value = data.xp;
-                if (data.note !== undefined) notesArea.value = data.note;
-                if (Array.isArray(data.health)) updateHealthBoxes(data.health);
-                alert("Importazione completata!");
-            } catch (err) {
-                console.error("Errore durante l'importazione:", err);
-                alert("Errore nel file importato");
-            }
-            e.target.value = ""; // reset
-        });
-    });
-
-
-
+    const exportBtn = document.getElementById("exportBtn")
+    const importInput = document.getElementById("importInput")
 
 
 
@@ -229,6 +68,58 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
+    // === POPOLO IL SELECT DINAMICAMENTE ===
+    charSelect.innerHTML = '<option value="">-- Seleziona un personaggio --</option>';
+    for (const name in characters) {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        charSelect.appendChild(option);
+    }
+
+    // === EXPORT JSON ===
+    exportBtn.addEventListener("click", () => {
+        const charName = charSelect.value;
+        if (!charName) {
+            alert("Seleziona un personaggio da esportare.");
+            return;
+        }
+        const data = {
+            name: charName,
+            xp: parseInt(xpInput.value) || 0,
+            note: notesArea.value || "",
+            health: Array.from(healthBox.children).map(b => b.dataset.state || "vuoto")
+        };
+        const json = JSON.stringify(data, null, 2);
+        const blob = new Blob([json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${charName}_backup.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+    });
+
+    // === IMPORT JSON ===
+    importInput.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        try {
+            const text = await file.text();
+            const data = JSON.parse(text);
+            if (data.xp !== undefined) xpInput.value = data.xp;
+            if (data.note !== undefined) notesArea.value = data.note;
+            if (Array.isArray(data.health)) updateHealthBoxes(data.health);
+            alert("Importazione completata!");
+        } catch (err) {
+            console.error("Errore durante l'importazione:", err);
+            alert("Errore nel file importato");
+        }
+        e.target.value = ""; // reset input
+    })
+
     // DICHIARAZIONI VARIABILI HTML (PRIMA di usarle!)
 
     const attrSelect = document.getElementById("attribute");
@@ -284,14 +175,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         updateCharacter();
     });
 
-    // SALVATAGGIO XP INPUT
-    xpInput.addEventListener("input", () => {
-        localStorage.setItem(`xp-${charSelect.value}`, xpInput.value);
 
-        // Salva su Firebase (merge = aggiorna senza cancellare altri dati)
-        setDoc(doc(db, "personaggi", charSelect.value), { xp: xpValue }, { merge: true });
-
-    });
 
     // Aggiunta dinamica al DOM per selezione armi
 
@@ -551,7 +435,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 })
 
 document.addEventListener("DOMContentLoaded", () => {
-    const exportBtn = document.getElementById("exportDataBtn");
+    const exportBtn = document.getElementById("exportBtn");
     if (!exportBtn) {
         alert("Bottone NON trovato!");
         return;

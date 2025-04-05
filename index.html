@@ -17,9 +17,10 @@
     <div class="container">
         <h1 class="title">Vampire Dice Roller</h1>
 
-
         <label for="character" class="label">Seleziona Personaggio:</label>
-        <select id="character" class="input"></select>
+        <select id="character" class="input">
+
+        </select>
 
         <label for="attribute" class="label">Attributo:</label>
         <select id="attribute" class="input"></select>
@@ -63,10 +64,10 @@
         </div>
 
         <div class="button-group">
-            <button id="exportDataBtn">Esporta Personaggio</button>
+            <button id="exportBtn">Esporta Personaggio</button>
             <label for="importDataInput" class="import-label">
                 Importa JSON
-                <input type="file" id="importDataInput" accept=".json" hidden />
+                <input type="file" id="importInput" accept=".json" hidden />
             </label>
         </div>
 

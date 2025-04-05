@@ -264,7 +264,7 @@ body {
     transition: background-color 0.2s;
 }
 
-#exportDataBtn:hover {
+#exportBtn:hover {
     background-color: #4338ca;
     /* indigo-600 */
 }
