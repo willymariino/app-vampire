@@ -244,3 +244,45 @@ body {
     resize: vertical;
     min-height: 100px;
 }
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#exportDataBtn {
+    background-color: #4f46e5;
+    /* indigo-500 */
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+#exportDataBtn:hover {
+    background-color: #4338ca;
+    /* indigo-600 */
+}
+
+.import-label {
+    display: inline-block;
+    background-color: #3b82f6;
+    /* blue-500 */
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.import-label:hover {
+    background-color: #2563eb;
+    /* blue-600 */
+}

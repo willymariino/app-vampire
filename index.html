@@ -62,6 +62,14 @@
             <input type="number" id="xpInput" value="0" min="0">
         </div>
 
+        <div class="button-group">
+            <button id="exportDataBtn">Esporta Personaggio</button>
+            <label for="importDataInput" class="import-label">
+                Importa JSON
+                <input type="file" id="importDataInput" accept=".json" hidden />
+            </label>
+        </div>
+
         <div class="notes-section">
             <label for="notes">Note Personaggio:</label><br>
             <textarea id="notesArea" rows="6" placeholder="Scrivi qui le tue note..."></textarea>

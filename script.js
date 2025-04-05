@@ -122,6 +122,77 @@ window.addEventListener("DOMContentLoaded", async () => {
     listenToCharacterUpdates();
 
 
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const exportBtn = document.getElementById("exportDataBtn");
+        const importInput = document.getElementById("importDataInput");
+
+        if (!exportBtn || !importInput) {
+            console.error("Elementi non trovati nel DOM!");
+            return;
+        }
+
+        exportBtn.addEventListener("click", () => {
+            // === ESPORTA JSON ===
+            document.getElementById("exportDataBtn").addEventListener("click", () => {
+                const charName = charSelect.value;
+                if (!charName) return alert("Seleziona un personaggio");
+
+                const data = {
+                    xp: parseInt(xpInput.value) || 0,
+                    note: notesArea.value || "",
+                    health: Array.from(healthBox.children).map(b => b.dataset.state)
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `${charName}_backup.json`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            });
+
+        });
+
+        importInput.addEventListener("change", async (e) => {
+            // === IMPORTA JSON ===
+            document.getElementById("importBtn").addEventListener("click", () => {
+                document.getElementById("importFile").click();
+            });
+
+            document.getElementById("importFile").addEventListener("change", async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                try {
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+
+                    if (data.xp !== undefined) xpInput.value = data.xp;
+                    if (data.note !== undefined) notesArea.value = data.note;
+                    if (Array.isArray(data.health)) updateHealthBoxes(data.health);
+
+                    alert("Importazione completata!");
+                } catch (err) {
+                    console.error("Errore durante l'importazione:", err);
+                    alert("Errore nel file importato");
+                }
+
+                e.target.value = "";
+            });
+        });
+    });
+
+
+
+
+
+
+
+
     const characters = {
         Aaron: {
             attributes: {
@@ -478,7 +549,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     <p><strong>Dadi Fame:</strong> ${hungerOutput.join(', ')}</p>
     <p><strong>Successi Totali:</strong> <span class="highlight">${totalSuccess}</span></p>
     <p><strong>Coppie di 10:</strong> ${pairs}</p>
-  `;
+  `
     }
     // Eventi
     charSelect.addEventListener("change", updateCharacter);
@@ -493,4 +564,5 @@ window.addEventListener("DOMContentLoaded", async () => {
         charSelect.appendChild(opt);
     }
     updateCharacter();
-});
+
+})
