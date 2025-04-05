@@ -69,13 +69,17 @@ window.addEventListener("DOMContentLoaded", async () => {
     };
 
     // === POPOLO IL SELECT DINAMICAMENTE ===
-    charSelect.innerHTML = '<option value="">-- Seleziona un personaggio --</option>';
-    for (const name in characters) {
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        charSelect.appendChild(option);
+    function populateCharacterSelect() {
+        charSelect.innerHTML = '<option value="">-- Seleziona un personaggio --</option>';
+        for (const name in characters) {
+            const option = document.createElement("option");
+            option.value = name;
+            option.textContent = name;
+            charSelect.appendChild(option);
+        }
     }
+
+    populateCharacterSelect(); // chiamata all'avvio
 
     // === EXPORT JSON ===
     exportBtn.addEventListener("click", () => {
@@ -109,16 +113,25 @@ window.addEventListener("DOMContentLoaded", async () => {
         try {
             const text = await file.text();
             const data = JSON.parse(text);
-            if (data.xp !== undefined) xpInput.value = data.xp;
-            if (data.note !== undefined) notesArea.value = data.note;
+
+            if (!characters[data.name]) {
+                alert("Personaggio non trovato nel database!");
+                return;
+            }
+
+            charSelect.value = data.name;
+            xpInput.value = data.xp || 0;
+            notesArea.value = data.note || "";
             if (Array.isArray(data.health)) updateHealthBoxes(data.health);
+
+            updateCharacter(data.name); // trigger aggiornamento UI
             alert("Importazione completata!");
         } catch (err) {
             console.error("Errore durante l'importazione:", err);
             alert("Errore nel file importato");
         }
         e.target.value = ""; // reset input
-    })
+    });
 
     // DICHIARAZIONI VARIABILI HTML (PRIMA di usarle!)
 
@@ -146,13 +159,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     }
 
-    // === EVENTO input = salvataggio note ===
-    notesArea.addEventListener("input", () => {
-        localStorage.setItem(`notes-${charSelect.value}`, notesArea.value);
-
-        setDoc(doc(db, "personaggi", charSelect.value), { xp: xpValue }, { merge: true });
-
-    });
 
 
 
