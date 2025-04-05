@@ -1,15 +1,8 @@
-import { db } from "./firebase-config.js"
-import { doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 window.addEventListener("DOMContentLoaded", async () => {
 
-    await new Promise(resolve => setTimeout(resolve, 100))
-    console.log("Firebase e Firestore sono stati inizializzati correttamente", db)
 
-    if (db) {
-        console.log("Firestore è attivo!");
-    } else {
-        console.error("Errore nell'inizializzazione di Firestore");
-    }
+
 
     // DICHIARAZIONE VARIABILI HTML
     const charSelect = document.getElementById("character");
@@ -556,4 +549,29 @@ window.addEventListener("DOMContentLoaded", async () => {
     updateCharacter();
 
 })
+
+document.addEventListener("DOMContentLoaded", () => {
+    const exportBtn = document.getElementById("exportDataBtn");
+    if (!exportBtn) {
+        alert("Bottone NON trovato!");
+        return;
+    }
+
+    exportBtn.addEventListener("click", () => {
+        alert("Hai cliccato su Esporta!");
+        console.log("Export funziona.");
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
