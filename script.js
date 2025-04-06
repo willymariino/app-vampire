@@ -68,16 +68,16 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
-    // === POPOLO IL SELECT DINAMICAMENTE ===
-    function populateCharacterSelect() {
-        charSelect.innerHTML = '<option value="">-- Seleziona un personaggio --</option>';
-        for (const name in characters) {
-            const option = document.createElement("option");
-            option.value = name;
-            option.textContent = name;
-            charSelect.appendChild(option);
-        }
-    }
+    // === POPOLO IL SELECT DINAMICAMENTE ===  // <--- ho commentato questa funzione perchè era ridondante e creava doppioni
+    // function populateCharacterSelect() {
+    //     charSelect.innerHTML = '<option value="">-- Seleziona un personaggio --</option>';
+    //     for (const name in characters) {
+    //         const option = document.createElement("option");
+    //         option.value = name;
+    //         option.textContent = name;
+    //         charSelect.appendChild(option);
+    //     }
+    // }
 
     // populateCharacterSelect() //// <--- commentata invocazione perchè creava doppioni nel selettore personaggi e un errore in console, in attesa di trovare un fix
 
