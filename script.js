@@ -12,6 +12,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const exportBtn = document.getElementById("exportBtn")
     const importInput = document.getElementById("importInput")
 
+
     const characters = {
         Aaron: {
             attributes: {
@@ -78,7 +79,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     // populateCharacterSelect() //// <--- commentata invocazione perchè creava doppioni nel selettore personaggi e un errore in console, in attesa di trovare un fix
 
-
     // === EXPORT JSON ===
     exportBtn.addEventListener("click", () => {
         const charName = charSelect.value;
@@ -109,7 +109,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             xp: parseInt(xpInput.value) || 0,
             note: notesArea.value || "",
             health: Array.from(healthBox.children).map(b => b.dataset.state || "vuoto"),
-            weapons
+            customWeapons
         };
         const json = JSON.stringify(data, null, 2);
         const blob = new Blob([json], { type: "application/json" });
@@ -122,6 +122,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         a.remove();
         URL.revokeObjectURL(url);
     });
+
 
     // === IMPORT JSON CORRETTO ===
     importInput.addEventListener("change", async (e) => {
