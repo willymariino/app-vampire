@@ -89,11 +89,30 @@ window.addEventListener("DOMContentLoaded", async () => {
             alert("Seleziona un personaggio da esportare.");
             return;
         }
+
+        const weaponInputs = document.querySelectorAll("#weaponsList input[type='checkbox']");
+        const weapons = {};
+        weaponInputs.forEach(input => {
+            const label = input.closest("label");
+            const name = label ? label.textContent.trim() : input.value;
+            weapons[name] = input.checked;
+        });
+
+        // 2. Leggi armi personalizzate dal localStorage
+        const customWeapons = JSON.parse(localStorage.getItem(`customWeapons-${charName}`)) || [];
+
+        // 3. Aggiungi le custom se non già presenti
+        customWeapons.forEach(name => {
+            if (!(name in weapons)) {
+                weapons[name] = true; // di default segniamo come selezionate
+            }
+        })
         const data = {
             name: charName,
             xp: parseInt(xpInput.value) || 0,
             note: notesArea.value || "",
-            health: Array.from(healthBox.children).map(b => b.dataset.state || "vuoto")
+            health: Array.from(healthBox.children).map(b => b.dataset.state || "vuoto"),
+            weapons
         };
         const json = JSON.stringify(data, null, 2);
         const blob = new Blob([json], { type: "application/json" });
