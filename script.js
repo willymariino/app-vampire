@@ -451,15 +451,3 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 })
 
-document.addEventListener("DOMContentLoaded", () => {
-    const exportBtn = document.getElementById("exportBtn");
-    if (!exportBtn) {
-        alert("Bottone NON trovato!");
-        return;
-    }
-
-    exportBtn.addEventListener("click", () => {
-        alert("Hai cliccato su Esporta!");
-        console.log("Export funziona.");
-    });
-});
