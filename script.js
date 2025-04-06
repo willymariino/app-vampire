@@ -79,7 +79,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // populateCharacterSelect() 
+    // populateCharacterSelect() ////<--- commentata invocazione perchè creava doppioni nel selettore personaggi e un errore in console, in attesa di trovare un fix
 
 
     // === EXPORT JSON ===
