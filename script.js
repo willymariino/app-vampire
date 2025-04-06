@@ -159,6 +159,11 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     }
 
+    // === EVENTO input = salvataggio note ===
+    notesArea.addEventListener("input", () => {
+        localStorage.setItem(`notes-${charSelect.value}`, notesArea.value);
+    });
+
 
 
 
@@ -179,6 +184,12 @@ window.addEventListener("DOMContentLoaded", async () => {
         newWeaponEffect.value = "";
 
         updateCharacter();
+    });
+
+    // SALVATAGGIO XP INPUT
+    xpInput.addEventListener("input", () => {
+        localStorage.setItem(`xp-${charSelect.value}`, xpInput.value);
+
     });
 
 
@@ -452,16 +463,3 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Export funziona.");
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
