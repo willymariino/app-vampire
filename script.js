@@ -79,7 +79,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    populateCharacterSelect(); // chiamata all'avvio
+    // populateCharacterSelect() 
+
 
     // === EXPORT JSON ===
     exportBtn.addEventListener("click", () => {
@@ -106,32 +107,50 @@ window.addEventListener("DOMContentLoaded", async () => {
         URL.revokeObjectURL(url);
     });
 
-    // === IMPORT JSON ===
+    // === IMPORT JSON CORRETTO ===
     importInput.addEventListener("change", async (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
         try {
             const text = await file.text();
             const data = JSON.parse(text);
 
-            if (!characters[data.name]) {
+            // Match nome personaggio con confronto case-insensitive
+            const match = Object.keys(characters).find(
+                key => key.toLowerCase() === data.name?.toLowerCase()
+            );
+
+            if (!match) {
                 alert("Personaggio non trovato nel database!");
                 return;
             }
 
-            charSelect.value = data.name;
+            // Popola campi UI
+            charSelect.value = match;
             xpInput.value = data.xp || 0;
             notesArea.value = data.note || "";
-            if (Array.isArray(data.health)) updateHealthBoxes(data.health);
 
-            updateCharacter(data.name); // trigger aggiornamento UI
+            // Se array salute, aggiorna
+            if (Array.isArray(data.health) && typeof updateHealthBoxes === "function") {
+                updateHealthBoxes(data.health);
+            }
+
+            // Trigger aggiornamento personaggio
+            if (typeof updateCharacter === "function") {
+                updateCharacter(match);
+            }
+
             alert("Importazione completata!");
         } catch (err) {
             console.error("Errore durante l'importazione:", err);
             alert("Errore nel file importato");
         }
-        e.target.value = ""; // reset input
+
+        // Reset input file (permette reimport dello stesso file)
+        e.target.value = "";
     });
+
 
     // DICHIARAZIONI VARIABILI HTML (PRIMA di usarle!)
 
