@@ -12,9 +12,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     const exportBtn = document.getElementById("exportBtn")
     const importInput = document.getElementById("importInput")
 
-
-
-
     const characters = {
         Aaron: {
             attributes: {
@@ -170,8 +167,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         e.target.value = "";
     });
 
-
-
     // function updateCharacter(name) {
     //     const character = charactersData[name];
     //     if (!character) {
@@ -217,9 +212,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         localStorage.setItem(`notes-${charSelect.value}`, notesArea.value);
     });
 
-
-
-
     // AGGIUNGI ARMA PERSONALIZZATA
     addWeaponBtn.addEventListener("click", () => {
         const name = newWeaponName.value.trim();
@@ -244,21 +236,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         localStorage.setItem(`xp-${charSelect.value}`, xpInput.value);
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // Aggiunta dinamica al DOM per selezione armi
 
