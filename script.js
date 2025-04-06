@@ -79,7 +79,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // populateCharacterSelect() ////<--- commentata invocazione perchè creava doppioni nel selettore personaggi e un errore in console, in attesa di trovare un fix
+    // populateCharacterSelect() //// <--- commentata invocazione perchè creava doppioni nel selettore personaggi e un errore in console, in attesa di trovare un fix
 
 
     // === EXPORT JSON ===
@@ -152,6 +152,21 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
 
 
+
+    // function updateCharacter(name) {
+    //     const character = charactersData[name];
+    //     if (!character) {
+    //         console.warn("Personaggio non trovato:", name);
+    //         return;
+    //     }
+
+    //     // Procedi con il resto del codice solo se character esiste
+    //     populateSelect(attributeSelect, character.attributes);
+    //     populateSelect(skillSelect, character.skills);
+    //     renderWeapons(character.weapons || []);
+    //     renderDisciplines(character.disciplines || {});
+    // }
+
     // DICHIARAZIONI VARIABILI HTML (PRIMA di usarle!)
 
     const attrSelect = document.getElementById("attribute");
@@ -210,6 +225,19 @@ window.addEventListener("DOMContentLoaded", async () => {
         localStorage.setItem(`xp-${charSelect.value}`, xpInput.value);
 
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
