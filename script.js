@@ -348,7 +348,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         // Punti Vita
         const healthBox = document.getElementById("healthBoxes");
         healthBox.innerHTML = "";
-        const hp = charSelect.value === "Katherine" ? 5 : 8;
+        const savedStates = JSON.parse(localStorage.getItem(`health-${charSelect.value}`));
+        const hp = savedStates && savedStates.length > 0 ? savedStates.length : (charSelect.value === "Katherine" ? 5 : 8);
         for (let i = 0; i < hp; i++) {
             const box = document.createElement("div");
             box.classList.add("health-box");
@@ -376,6 +377,24 @@ window.addEventListener("DOMContentLoaded", async () => {
 
             });
             healthBox.appendChild(box);
+        }
+
+        // Ripristina eventuali PV salvati
+        if (savedStates && savedStates.length > 0) {
+            Array.from(healthBox.children).forEach((box, i) => {
+                const state = savedStates[i] || "none";
+                box.dataset.state = state;
+                box.className = "health-box";
+                if (state === "superficiale") {
+                    box.classList.add("superficiale");
+                    box.textContent = "/";
+                } else if (state === "aggravato") {
+                    box.classList.add("aggravato");
+                    box.textContent = "X";
+                } else {
+                    box.textContent = "";
+                }
+            });
         }
 
         const addHealthBtn = document.getElementById("addHealthBtn");
@@ -424,21 +443,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             saveHealthState();
         }
 
-        // E qui fuori dal ciclo, ripristina eventuali PV salvati
-        const savedStates = JSON.parse(localStorage.getItem(`health-${charSelect.value}`));
-        if (savedStates && savedStates.length === hp) {
-            Array.from(healthBox.children).forEach((box, i) => {
-                const state = savedStates[i];
-                box.dataset.state = state;
-                if (state === "superficiale") {
-                    box.classList.add("superficiale");
-                    box.textContent = "/";
-                } else if (state === "aggravato") {
-                    box.classList.add("aggravato");
-                    box.textContent = "X";
-                }
-            });
-        }
+
 
         // Aggiorna lista armi selezionate
         updateWeaponsList();
