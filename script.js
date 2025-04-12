@@ -476,8 +476,39 @@ window.addEventListener("DOMContentLoaded", async () => {
     <p><strong>Dadi Normali:</strong> ${normalOutput.join(', ')}</p>
     <p><strong>Dadi Fame:</strong> ${hungerOutput.join(', ')}</p>
     <p><strong>Successi Totali:</strong> <span class="highlight">${totalSuccess}</span></p>
-    <p><strong>Coppie di 10:</strong> ${pairs}</p>
-  `
+    <p><strong>Coppie di 10:</strong> ${pairs}</p> `
+    }
+
+    // === Tiro di Risveglio ===
+    const rouseBtn = document.getElementById("rouseBtn");
+    rouseBtn.addEventListener("click", rollRouseCheck);
+
+    function rollRouseCheck() {
+        const resultDiv = document.getElementById("result");
+        const roll = Math.ceil(Math.random() * 10);
+        const success = roll >= 6;
+
+        let messageHTML = "";
+        if (success) {
+            messageHTML = '<span class="success">Tiro superato</span>';
+        } else {
+            messageHTML = '<span class="failure">Tiro non superato</span>';
+        }
+
+        resultDiv.innerHTML = `
+        <h4 class="text-lg font-semibold mb-2">Tiro di Risveglio</h4>
+        <p>Risultato: <strong>${roll}</strong></p>
+        <p>${messageHTML}</p>
+    `;
+
+        if (!success) {
+            const hungerSlider = document.getElementById("hunger");
+            let current = parseInt(hungerSlider.value);
+            if (current < 5) {
+                hungerSlider.value = current + 1;
+                document.getElementById("hungerValue").textContent = hungerSlider.value;
+            }
+        }
     }
     // Eventi
     charSelect.addEventListener("change", updateCharacter);

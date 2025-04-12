@@ -286,3 +286,13 @@ body {
     background-color: #2563eb;
     /* blue-600 */
 }
+
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.failure {
+    color: darkred;
+    font-weight: bold;
+}
