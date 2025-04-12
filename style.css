@@ -296,3 +296,9 @@ body {
     color: darkred;
     font-weight: bold;
 }
+
+.health-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 20px;
+}
