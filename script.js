@@ -378,6 +378,52 @@ window.addEventListener("DOMContentLoaded", async () => {
             healthBox.appendChild(box);
         }
 
+        const addHealthBtn = document.getElementById("addHealthBtn");
+        const removeHealthBtn = document.getElementById("removeHealthBtn");
+
+        // ➕ Aggiunge 1 casella salute
+        addHealthBtn.addEventListener("click", () => {
+            const box = document.createElement("div");
+            box.classList.add("health-box");
+            box.dataset.state = "none";
+            box.addEventListener("click", () => toggleHealthBoxState(box));
+            healthBox.appendChild(box);
+            saveHealthState();
+        });
+
+        // ➖ Rimuove 1 casella salute (se almeno 1 presente)
+        removeHealthBtn.addEventListener("click", () => {
+            if (healthBox.children.length > 0) {
+                healthBox.removeChild(healthBox.lastElementChild);
+                saveHealthState();
+            }
+        });
+
+        // Salva stati attuali in localStorage
+        function saveHealthState() {
+            const states = Array.from(healthBox.children).map(b => b.dataset.state);
+            localStorage.setItem(`health-${charSelect.value}`, JSON.stringify(states));
+        }
+
+        // Cambia stato cliccando sulle box
+        function toggleHealthBoxState(box) {
+            const state = box.dataset.state;
+            if (state === "none") {
+                box.dataset.state = "superficiale";
+                box.className = "health-box superficiale";
+                box.textContent = "/";
+            } else if (state === "superficiale") {
+                box.dataset.state = "aggravato";
+                box.className = "health-box aggravato";
+                box.textContent = "X";
+            } else {
+                box.dataset.state = "none";
+                box.className = "health-box";
+                box.textContent = "";
+            }
+            saveHealthState();
+        }
+
         // E qui fuori dal ciclo, ripristina eventuali PV salvati
         const savedStates = JSON.parse(localStorage.getItem(`health-${charSelect.value}`));
         if (savedStates && savedStates.length === hp) {
