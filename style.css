@@ -311,3 +311,9 @@ body {
 .add-character-btn {
     margin: 3%;
 }
+
+.create-character-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
