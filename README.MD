@@ -6,6 +6,8 @@
 è un'applicazione web progettata per facilitare la gestione del gioco di ruolo da tavolo *Vampire: The Masquerade*.
 L'app consente ai giocatori di gestire i personaggi, effettuare tiri di dadi, monitorare punti vita, fame, equipaggiamento e discipline.
 
+> **Nota**: Attualmente l'app supporta solo personaggi predefiniti. La funzionalità per creare nuovi personaggi personalizzati non è ancora implementata.
+
 ## Funzionalità Principali
 
 - **Gestione Personaggi**: Seleziona un personaggio predefinito o personalizza le sue caratteristiche.
@@ -15,7 +17,7 @@ L'app consente ai giocatori di gestire i personaggi, effettuare tiri di dadi, mo
 - **Gestione Fame**: Regola i punti fame e monitora il loro impatto sui tiri.
 - **Esportazione e Importazione**: Salva i dati del personaggio in formato JSON e ripristinali facilmente.
 - **Note Personali**: Scrivi e salva note specifiche per ogni personaggio.
-- **Tiro di Risveglio**: effettua tiri di risveglio per gestire la fame.
+- **Tiro di Risveglio**: Effettua tiri di risveglio per gestire la fame.
 
 ## Live Demo
 
