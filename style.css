@@ -302,3 +302,12 @@ body {
     display: flex;
     gap: 20px;
 }
+
+.hidden {
+    display: none;
+
+}
+
+.add-character-btn {
+    margin: 3%;
+}

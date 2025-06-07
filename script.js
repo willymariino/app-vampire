@@ -574,6 +574,16 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
     updateCharacter();
 
+    const toggleCreateCharBtn = document.getElementById("toggleCreateCharBtn");
+    const createCharacterContainer = document.getElementById("createCharacterContainer");
+
+    toggleCreateCharBtn.addEventListener("click", () => {
+        createCharacterContainer.classList.toggle("hidden");
+        toggleCreateCharBtn.textContent = createCharacterContainer.classList.contains("hidden")
+            ? "Crea Nuovo Personaggio"
+            : "Nascondi Creazione Personaggio";
+    });
+
     document.getElementById("createCharBtn").addEventListener("click", () => {
         const name = document.getElementById("newCharName").value.trim();
         const attributes = parseInput(document.getElementById("newCharAttributes").value);
