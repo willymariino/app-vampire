@@ -2,7 +2,9 @@
 
 ## Descrizione del Progetto
 
-**Vampire Dice Roller** è un'applicazione web progettata per facilitare il gioco di ruolo basato sul sistema di dadi di *Vampire: The Masquerade*. L'app consente ai giocatori di gestire i personaggi, effettuare tiri di dadi, monitorare punti vita, fame, equipaggiamento e discipline.
+**Vampire Dice Roller**
+è un'applicazione web progettata per facilitare la gestione del gioco di ruolo da tavolo *Vampire: The Masquerade*.
+L'app consente ai giocatori di gestire i personaggi, effettuare tiri di dadi, monitorare punti vita, fame, equipaggiamento e discipline.
 
 ## Funzionalità Principali
 
@@ -13,7 +15,7 @@
 - **Gestione Fame**: Regola i punti fame e monitora il loro impatto sui tiri.
 - **Esportazione e Importazione**: Salva i dati del personaggio in formato JSON e ripristinali facilmente.
 - **Note Personali**: Scrivi e salva note specifiche per ogni personaggio.
-- **Tiro di Risveglio**: Simula il tiro di risveglio per gestire la fame.
+- **Tiro di Risveglio**: effettua tiri di risveglio per gestire la fame.
 
 ## Live Demo
 
