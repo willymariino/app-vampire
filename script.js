@@ -1,4 +1,3 @@
-
 window.addEventListener("DOMContentLoaded", async () => {
 
 
@@ -575,5 +574,62 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
     updateCharacter();
 
-})
+    document.getElementById("createCharBtn").addEventListener("click", () => {
+        const name = document.getElementById("newCharName").value.trim();
+        const attributes = parseInput(document.getElementById("newCharAttributes").value);
+        const skills = parseInput(document.getElementById("newCharSkills").value);
+        const weapons = parseInput(document.getElementById("newCharWeapons").value, true);
+        const disciplines = parseDisciplines(document.getElementById("newCharDisciplines").value);
 
+        if (!name || !attributes || !skills || !weapons || !disciplines) {
+            alert("Compila tutti i campi correttamente.");
+            return;
+        }
+
+        characters[name] = { attributes, skills, weapons, disciplines };
+        localStorage.setItem("characters", JSON.stringify(characters));
+
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        document.getElementById("character").appendChild(option);
+
+        alert(`Personaggio "${name}" creato con successo!`);
+        clearCreateCharacterForm();
+    });
+
+    function parseInput(input, isBoolean = false) {
+        try {
+            const obj = {};
+            input.split(",").forEach(pair => {
+                const [key, value] = pair.split(":").map(s => s.trim());
+                obj[key] = isBoolean ? value === "true" : parseInt(value, 10);
+            });
+            return obj;
+        } catch {
+            return null;
+        }
+    }
+
+    function parseDisciplines(input) {
+        try {
+            const obj = {};
+            input.split(",").forEach(pair => {
+                const [key, value] = pair.split(":").map(s => s.trim());
+                obj[key] = value.replace(/\[|\]/g, "").split(",").map(s => s.trim());
+            });
+            return obj;
+        } catch {
+            return null;
+        }
+    }
+
+    function clearCreateCharacterForm() {
+        document.getElementById("newCharName").value = "";
+        document.getElementById("newCharAttributes").value = "";
+        document.getElementById("newCharSkills").value = "";
+        document.getElementById("newCharWeapons").value = "";
+        document.getElementById("newCharDisciplines").value = "";
+    }
+
+})
