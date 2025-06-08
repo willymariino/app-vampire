@@ -1,8 +1,7 @@
 # Vampire Dice Roller
 
 [![Live Demo](https://img.shields.io/badge/live-demo-green)](https://vampire-dice-roller-best-coterie.netlify.app/)
-![Language](https://img.shields.io/badge/lang-IT%2FEN-blue)
-![License](https://img.shields.io/badge/license-MIT-lightgrey)
+
 
 🔤 The application interface is in **Italian**, but the documentation is provided in English for clarity and accessibility.
 
