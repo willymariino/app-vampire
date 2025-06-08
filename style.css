@@ -303,16 +303,17 @@ body {
     gap: 20px;
 }
 
+.create-character-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* hidden deve stare dopo create-character-section, altrimenti viene sovrascritto e il pulsante che nasconde gli input smette di funzionare  */
 .hidden {
     display: none;
 }
 
 .add-character-btn {
     margin: 3%;
-}
-
-.create-character-section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
