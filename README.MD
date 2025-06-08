@@ -3,14 +3,14 @@
 [![Live Demo](https://img.shields.io/badge/live-demo-green)](https://vampire-dice-roller-best-coterie.netlify.app/)
 
 
-🔤 The application interface is in **Italian**, but the documentation is provided in English for clarity and accessibility.
+The application interface is in **Italian**, but the documentation is provided in English for clarity and accessibility.
 
 ## 1. Project Overview
 
 **Vampire Dice Roller** is a web application designed to assist tabletop role-playing sessions of *Vampire: The Masquerade*.  
 It allows players to manage predefined characters, roll dice, track health, hunger, equipment, and disciplines.
 
-Note: The feature to create custom characters is not yet implemented.
+> **Note**: The feature to create custom characters is not yet implemented.
 
 ## 2. Core Features
 
