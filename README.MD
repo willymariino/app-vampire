@@ -14,14 +14,14 @@ It allows players to manage predefined characters, roll dice, track health, hung
 
 ## 2. Core Features
 
-**Character Management**: Select a predefined character and customize their stats.
-**Dice Rolls**: Perform standard and hunger dice rolls with automatic success calculation.
-**Equipment Handling**: Add, edit, and remove custom weapons.
-**Health Tracking**: Manage health levels, including superficial and aggravated damage.
-**Hunger Control**: Adjust hunger points and observe their impact on dice rolls.
-**Data Export/Import**: Save and restore character data via JSON.
-**Personal Notes**: Save notes linked to each character.
-**Rouse Check**: Roll to simulate awakening and its hunger effects.
+- **Character Management**: Select a predefined character and customize their stats.
+- **Dice Rolls**: Perform standard and hunger dice rolls with automatic success calculation.
+- **Equipment Handling**: Add, edit, and remove custom weapons.
+- **Health Tracking**: Manage health levels, including superficial and aggravated damage.
+- **Hunger Control**: Adjust hunger points and observe their impact on dice rolls.
+- **Data Export/Import**: Save and restore character data via JSON.
+- **Personal Notes**: Save notes linked to each character.
+- **Rouse Check**: Roll to simulate awakening and its hunger effects.
 
 ## 3. Live Demo
 
