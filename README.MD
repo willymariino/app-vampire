@@ -30,11 +30,11 @@ The application is hosted online and can be accessed here:
 
 ## 4. Tech Stack
 
-HTML5  
-CSS3  
-JavaScript (Vanilla)  
-LocalStorage (client-side persistence)  
-Netlify (hosting)
+- HTML5  
+- CSS3  
+- JavaScript (Vanilla)  
+- LocalStorage (client-side persistence)  
+- Netlify (hosting)
 
 ## 5. How to Use
 
