@@ -1,53 +1,58 @@
 # Vampire Dice Roller
 
-## Descrizione del Progetto
+[![Live Demo](https://img.shields.io/badge/live-demo-green)](https://vampire-dice-roller-best-coterie.netlify.app/)
+![Language](https://img.shields.io/badge/lang-IT%2FEN-blue)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-**Vampire Dice Roller**
-è un'applicazione web progettata per facilitare la gestione del gioco di ruolo da tavolo *Vampire: The Masquerade*.
-L'app consente ai giocatori di gestire i personaggi, effettuare tiri di dadi, monitorare punti vita, fame, equipaggiamento e discipline.
+🔤 The application interface is in **Italian**, but the documentation is provided in English for clarity and accessibility.
 
-> **Nota**: Attualmente l'app supporta solo personaggi predefiniti. La funzionalità per creare nuovi personaggi personalizzati non è ancora implementata.
+## 1. Project Overview
 
-## Funzionalità Principali
+**Vampire Dice Roller** is a web application designed to assist tabletop role-playing sessions of *Vampire: The Masquerade*.  
+It allows players to manage predefined characters, roll dice, track health, hunger, equipment, and disciplines.
 
-- **Gestione Personaggi**: Seleziona un personaggio predefinito o personalizza le sue caratteristiche.
-- **Tiri di Dadi**: Effettua tiri di dado normali e dadi fame con calcolo automatico dei successi.
-- **Gestione Equipaggiamento**: Aggiungi, modifica o elimina armi personalizzate.
-- **Monitoraggio Punti Vita**: Gestisci i punti vita con stati superficiali e aggravati.
-- **Gestione Fame**: Regola i punti fame e monitora il loro impatto sui tiri.
-- **Esportazione e Importazione**: Salva i dati del personaggio in formato JSON e ripristinali facilmente.
-- **Note Personali**: Scrivi e salva note specifiche per ogni personaggio.
-- **Tiro di Risveglio**: Effettua tiri di risveglio per gestire la fame.
+Note: The feature to create custom characters is not yet implemented.
 
-## Live Demo
+## 2. Core Features
 
-L'applicazione è disponibile online al seguente link:  
-[**Vampire Dice Roller**](https://vampire-dice-roller-best-coterie.netlify.app/)
+**Character Management**: Select a predefined character and customize their stats.
+**Dice Rolls**: Perform standard and hunger dice rolls with automatic success calculation.
+**Equipment Handling**: Add, edit, and remove custom weapons.
+**Health Tracking**: Manage health levels, including superficial and aggravated damage.
+**Hunger Control**: Adjust hunger points and observe their impact on dice rolls.
+**Data Export/Import**: Save and restore character data via JSON.
+**Personal Notes**: Save notes linked to each character.
+**Rouse Check**: Roll to simulate awakening and its hunger effects.
 
-## Tecnologie Utilizzate
+## 3. Live Demo
 
-- **HTML**: Struttura della pagina.
-- **CSS**: Stile e layout.
-- **JavaScript**: Logica applicativa e interattività.
-- **LocalStorage**: Persistenza dei dati lato client.
-- **Netlify**: Hosting della live demo.
+The application is hosted online and can be accessed here:  
+[Vampire Dice Roller](https://vampire-dice-roller-best-coterie.netlify.app/)
 
-## Come Utilizzare
+## 4. Tech Stack
 
-1. **Seleziona un personaggio** dal menu a tendina.
-2. **Configura attributi e skill** per il tiro di dadi.
-3. **Regola i punti fame** e aggiungi eventuali bonus/malus.
-4. **Effettua il tiro di dadi** cliccando sul pulsante "Tira i dadi".
-5. **Gestisci equipaggiamento** aggiungendo armi personalizzate.
-6. **Monitora punti vita** cliccando sulle caselle per modificare lo stato.
-7. **Esporta o importa** i dati del personaggio in formato JSON.
-8. **Scrivi note personali** per ogni personaggio.
+HTML5  
+CSS3  
+JavaScript (Vanilla)  
+LocalStorage (client-side persistence)  
+Netlify (hosting)
 
-## Contribuzione
+## 5. How to Use
 
-Se desideri contribuire al progetto, puoi clonare la repository e proporre modifiche. Ogni contributo è benvenuto!
+Select a character from the dropdown.
+Configure attributes and skills for the dice roll.
+Adjust hunger levels and include optional modifiers.
+Click **"Tira i dadi"** to roll.
+Manage custom equipment and health status interactively.
+Export or import character data in JSON format.
+Add character-specific notes.
 
-## Licenza
+## 6. Contributing
 
-Questo progetto è distribuito sotto licenza MIT. Sentiti libero di utilizzarlo e modificarlo.
+Contributions are welcome!  
+Feel free to fork the repository, create a new branch, and submit a pull request.
 
+## 7. License
+
+This project is licensed under the **MIT License**.  
+You are free to use and modify it for any purpose.
