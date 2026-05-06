@@ -1,4 +1,3 @@
-
 window.addEventListener("DOMContentLoaded", async () => {
 
 
@@ -109,7 +108,11 @@ window.addEventListener("DOMContentLoaded", async () => {
             xp: parseInt(xpInput.value) || 0,
             note: notesArea.value || "",
             health: Array.from(healthBox.children).map(b => b.dataset.state || "vuoto"),
-            customWeapons
+            customWeapons,
+            attributes: characters[charName].attributes,
+            skills: characters[charName].skills,
+            disciplines: characters[charName].disciplines,
+            weapons: characters[charName].weapons
         };
         const json = JSON.stringify(data, null, 2);
         const blob = new Blob([json], { type: "application/json" });
@@ -124,16 +127,17 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
 
 
-    // === IMPORT JSON CORRETTO ===
+    // === IMPORT JSON ===
     importInput.addEventListener("change", async (e) => {
         const file = e.target.files[0];
+
         if (!file) return;
 
         try {
             const text = await file.text();
             const data = JSON.parse(text);
 
-            // Match nome personaggio con confronto case-insensitive
+            // 1. Trova il personaggio nel database (case-insensitive)
             const match = Object.keys(characters).find(
                 key => key.toLowerCase() === data.name?.toLowerCase()
             );
@@ -143,25 +147,61 @@ window.addEventListener("DOMContentLoaded", async () => {
                 return;
             }
 
-            // Popola campi UI
+            // 2. SOVRASCRIVI i dati dell'oggetto characters in memoria
+            // Questo è fondamentale: updateCharacter leggerà questi nuovi valori
+            if (data.attributes) characters[match].attributes = data.attributes;
+            if (data.skills) characters[match].skills = data.skills;
+            if (data.disciplines) characters[match].disciplines = data.disciplines;
+            if (data.weapons) characters[match].weapons = data.weapons;
+
+            // 3. Salva le armi custom nel localStorage IMMEDIATAMENTE
+            // così updateCharacter le troverà quando ricreerà la lista
+            if (Array.isArray(data.customWeapons)) {
+                localStorage.setItem(`customWeapons-${match}`, JSON.stringify(data.customWeapons));
+            }
+
+            // 4. Seleziona il personaggio (questo innesca updateCharacter automaticamente)
             charSelect.value = match;
+
+            // 5. Aggiorna XP e Note (che updateCharacter non tocca di default se non ci sono nel localStorage)
             xpInput.value = data.xp || 0;
             notesArea.value = data.note || "";
 
-            // Se array salute, aggiorna
-            if (Array.isArray(data.health) && typeof updateHealthBoxes === "function") {
-                updateHealthBoxes(data.health);
+            // 6. AGGIORNA MANUALMENTE LE CASELLE DI SALUTE
+            // updateCharacter ha appena ricreato le box. Ora dobbiamo impostare i loro stati.
+            const healthBox = document.getElementById("healthBoxes");
+
+            // Puliamo e ricreiamo le box con i dati esatti dal file JSON
+            // (Questo bypassa la logica di updateCharacter che legge dal localStorage)
+            if (healthBox && Array.isArray(data.health)) {
+                healthBox.innerHTML = ""; // Pulisce tutto
+
+                data.health.forEach(state => {
+                    const box = document.createElement("div");
+                    box.classList.add("health-box");
+                    box.dataset.state = state || "none";
+
+                    if (state === "superficiale") {
+                        box.classList.add("superficiale");
+                        box.textContent = "/";
+                    } else if (state === "aggravato") {
+                        box.classList.add("aggravato");
+                        box.textContent = "X";
+                    } else {
+                        box.textContent = "";
+                    }
+                    healthBox.appendChild(box);
+                });
+
+                // Salva questo stato in localStorage per persistenza futura
+                localStorage.setItem(`health-${match}`, JSON.stringify(data.health));
             }
 
-            // Trigger aggiornamento personaggio
-            if (typeof updateCharacter === "function") {
-                updateCharacter(match);
-            }
+            alert("Importazione completata con successo!");
 
-            alert("Importazione completata!");
         } catch (err) {
             console.error("Errore durante l'importazione:", err);
-            alert("Errore nel file importato");
+            alert("Errore nel file importato: " + err.message);
         }
 
         // Reset input file (permette reimport dello stesso file)
@@ -575,5 +615,5 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
     updateCharacter();
 
-})
 
+})
