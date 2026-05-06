@@ -182,7 +182,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     //     renderDisciplines(character.disciplines || {});
     // }
 
-    // DICHIARAZIONI VARIABILI HTML (PRIMA di usarle!)
+    // DICHIARAZIONI VARIABILI HTML 
 
     const attrSelect = document.getElementById("attribute");
     const skillSelect = document.getElementById("skill");
