@@ -108,7 +108,11 @@ window.addEventListener("DOMContentLoaded", async () => {
             xp: parseInt(xpInput.value) || 0,
             note: notesArea.value || "",
             health: Array.from(healthBox.children).map(b => b.dataset.state || "vuoto"),
-            customWeapons
+            customWeapons,
+            attributes: characters[charName].attributes,
+            skills: characters[charName].skills,
+            disciplines: characters[charName].disciplines,
+            weapons: characters[charName].weapons
         };
         const json = JSON.stringify(data, null, 2);
         const blob = new Blob([json], { type: "application/json" });
