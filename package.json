@@ -1,0 +1,25 @@
+{
+  "name": "app-vampire",
+  "version": "1.0.0",
+  "description": "[![Live Demo](https://img.shields.io/badge/live-demo-green)](https://vampire-dice-roller-best-coterie.netlify.app/)",
+  "main": "firebase-config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo no build step"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willymariino/app-vampire.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/willymariino/app-vampire/issues"
+  },
+  "homepage": "https://github.com/willymariino/app-vampire#readme",
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.1"
+  }
+}
