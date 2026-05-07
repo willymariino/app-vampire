@@ -66,7 +66,8 @@ jobs:
           if [ -f src-tauri/tauri.conf.json ]; then
             sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" src-tauri/tauri.conf.json
           fi
-
+      - name: Install npm dependencies
+        run: npm install
       # 7. Build e packaging con Tauri
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
