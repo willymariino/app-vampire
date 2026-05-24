@@ -32,10 +32,18 @@ body {
 .input {
     width: 100%;
     padding: 8px;
-    background-color: #333;
+    background-color: #333 !important;
     border: 1px solid #444;
-    color: white;
+    color: white !important;
     border-radius: 4px;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+}
+
+select.input option {
+    background-color: #333 !important;
+    color: white !important;
 }
 
 .slider {
