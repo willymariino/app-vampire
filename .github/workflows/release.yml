@@ -19,6 +19,8 @@ jobs:
             artifact_name: linux
           - os: windows-latest
             artifact_name: windows
+          - os: macos-latest       
+            artifact_name: macos
 
     runs-on: ${{ matrix.os }}
 
@@ -79,10 +81,12 @@ jobs:
           releaseBody: |
             ## Download
 
-            | Piattaforma | File |
-            |-------------|------|
-            | Windows     | .msi o .exe (setup) |
-            | Linux       | .AppImage o .deb    |
+            | Piattaforma | File                         |
+            |-------------|------------------------------|
+            | Windows     | .msi o .exe (setup)          |
+            | Linux       | .AppImage o .deb             |
+            | macOS       | .dmg (Intel / Apple Silicon) |
+            
 
             Vedi i file allegati qui sotto per scaricare la versione per il tuo sistema.
           releaseDraft: false
